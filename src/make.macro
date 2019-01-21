@@ -33,14 +33,15 @@
 # Need linelength = 80 for getting LAPACK/BLAS from lasubs.f,
 # and for some inline comments in parameters_data.F, otherwise
 # default linelength = 72 would suffice for the rest of the code
-FC = gfortran -80 -fpp -std90 -xSSE2
+# FC = ifort -80 -fpp -std90 -xSSE2
+FC = ifort -80 -fpp -std90
 # Moving to -std95 produces an excessive number of warnings
-#FFLAGS = -O3 -ip -mp1 -fpe0 -align -automatic
+FFLAGS = -O3 -ip -mp1 -fpe0 -align
 #FFLAGS = -O3 -ip -mp1 -fpe0 -align -automatic -static
 #FFLAGS = -O3 -ip -mp1 -fpe0 -align -automatic -static -warn
 #FFLAGS = -O3 -ipo -mp1 -fpe0 -align -automatic -static -openmp -warn all
 #FFLAGS = -O3 -ipo -mp1 -fpe0 -align -automatic -static -openmp -warn all,nointerfaces
-FFLAGS = -O3 -ip -mp1 -fpe0 -align -automatic -static -openmp -warn all,nointerfaces
+#FFLAGS = -O3 -ip -mp1 -fpe0 -align -automatic -static -openmp -warn all,nointerfaces
 #DEBUGS = -check all -ftrapuv -implicitnone -warn all -mp1 -automatic -fpe0 -static -g -traceback
 DEBUGS = -check all -ftrapuv -implicitnone -warn all,nointerfaces -mp1 -automatic -fpe0 -align -static -g -traceback
 #FFLAGS = ${DEBUGS}
@@ -64,9 +65,9 @@ TPFLAGS = -static
 # See also http://software.intel.com/en-us/articles/avoiding-relocation-
 # errors-when-building-applications-with-large-global-or-static-data-on-intel64/
 # for a discussion of trying to add -mcmodel=medium
-MKLDIR = /nerc/packages/intel_compilers/intel_fc_11.1.072/mkl
-MKLPATH = ${MKLDIR}/lib/em64t
-MKLINCLUDE = ${MKLDIR}/include
+# MKLDIR = /nerc/packages/intel_compilers/intel_fc_11.1.072/mkl
+# MKLPATH = ${MKLDIR}/lib/em64t
+# MKLINCLUDE = ${MKLDIR}/include
 # LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl,--start-group ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl,--end-group -lpthread
 # version for single-thread testing:
 # For the sequential version, no RTL should be needed, but the
@@ -83,8 +84,12 @@ LAPOBJ = lasubs.o
 # Passing NCIDIR to the makefile and invoking as -I${NCIDIR} there doesn't
 # work; the invocation macro has to be complete or null. Hence use NCLINC.
 
-# Cluster
+# Example
 # NCBASE = /noc/users/jeff/packages/netcdf/netcdf-3.6.3/xSSE2/intel11.1
+
+# cx1
+# NCBASE = /rds/general/apps/netcdf/3.6.3
+
 # Local machine
 NCBASE = /usr/local
 
