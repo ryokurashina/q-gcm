@@ -65,10 +65,19 @@ TPFLAGS = -static
 # See also http://software.intel.com/en-us/articles/avoiding-relocation-
 # errors-when-building-applications-with-large-global-or-static-data-on-intel64/
 # for a discussion of trying to add -mcmodel=medium
+
+##### CLUSTER #####
 # MKLDIR = /nerc/packages/intel_compilers/intel_fc_11.1.072/mkl
 # MKLPATH = ${MKLDIR}/lib/em64t
 # MKLINCLUDE = ${MKLDIR}/include
-# LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl,--start-group ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl,--end-group -lpthread
+
+##### LOCAL #####
+MKLDIR = /opt/intel/parallel_studio_xe_2019/compilers_and_libraries_2019/mac/mkl
+MKLPATH = ${MKLDIR}/lib/
+MKLINCLUDE = ${MKLDIR}/include
+
+LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl, ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl, -lpthread
+#LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl,--start-group ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl,--end-group -lpthread
 # version for single-thread testing:
 # For the sequential version, no RTL should be needed, but the
 # POSIX thread library (pthread) will be needed for thread-safety
@@ -76,8 +85,8 @@ TPFLAGS = -static
 # LAPACK = -L${NAGDIR} -lnag_nag
 # Alternative provision of LAPACK/BLAS from the supplied source code
 # Set either LAPACK, or both of LAPSRC and LAPOBJ, but not all three
-LAPSRC = lasubs.f
-LAPOBJ = lasubs.o
+#LAPSRC = lasubs.f
+#LAPOBJ = lasubs.o
 
 # NetCDF:
 # -------

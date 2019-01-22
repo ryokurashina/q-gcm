@@ -9,3 +9,4 @@ q-gcm
 *.mod
 TAGS
 .DS_Store
+/src/outdata/*

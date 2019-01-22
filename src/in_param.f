@@ -28,7 +28,7 @@ c***********************************************************************
 *
 *     Read input parameters
 *     ---------------------
-      open (ipunit, file='./input.params')
+      open (ipunit, file='/Users/rk2014/Documents/q-gcm/src/input_params.dat')
       call ipbget (inpbuf, ipunit)
       read (inpbuf,*) trun
       call ipbget (inpbuf, ipunit)
