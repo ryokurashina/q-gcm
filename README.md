@@ -1,4 +1,4 @@
-The Quasi-Geostrophic Coupled Model (Q-GCM)
+The Quasi-Geostrophic Coupled Model (Q-GCM) - Adapted for use at Imperial College London
 # Compile and run the double gyre ocean only case
 
 ## Create the forcing file: 
