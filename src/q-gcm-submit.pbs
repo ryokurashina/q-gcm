@@ -1,17 +1,26 @@
 #!/bin/sh
-#PBS -l walltime=72:00:00
-#PBS -l select=1:ncpus=1:mem=3200mb:tmpspace=100GB
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=1:mem=4gb
 # PBS -q pqberloff
 
-module load intel-suite/2015
-module load fftw/3.3.3-double
-module load mpi/intel-5.1
-export NETCDF_VERSION=4.3.3
+module load intel-suite
+export NETCDF_VERSION=3.6.3
 module load netcdf/$NETCDF_VERSION
 
-pbsdsh2 cp ${WORK}/cluster/data/stratification.d ${TMPDIR}/
-pbsdsh2 cp ${WORK}/cluster/data/qg_513_s ${TMPDIR}/
-ifort -L{MKL_HOME}/interfaces/fftw3xf -I${MKL_HOME}/include/fftw -L/apps/netcdf/$NETCDF_VERSION/lib -I/apps/netcdf/$NETCDF_VERSION/include -o qg ${WORK}/cluster/data/qg3_DG_data_record.f -mkl -lnetcdff -lnetcdf
-./qg
-pbsdsh2 cp ${TMPDIR}/\* ${WORK}/cluster/results3_b
+# Compile
+cd ${WORK}/q-gcm/src
+make
+
+# Copy data files to temp directory
+pbsdsh2 cp ${WORK}/q-gcm/src/input_params.dat ${WORK}/q-gcm/src/outdata.dat ${TMPDIR}/
+cd ${TMPDIR}
+
+# Create directory to store results
+mkdir outdata
+
+# Execute
+${WORK}/q-gcm/src/q-gcm
+
+# Copy files back over 
+pbsdsh2 cp ${TMPDIR}/outdata/\* ${WORK}/q-gcm/outdata
 module purge

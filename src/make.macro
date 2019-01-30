@@ -67,16 +67,16 @@ TPFLAGS = -static
 # for a discussion of trying to add -mcmodel=medium
 
 ##### CLUSTER #####
-# MKLDIR = /nerc/packages/intel_compilers/intel_fc_11.1.072/mkl
-# MKLPATH = ${MKLDIR}/lib/em64t
-# MKLINCLUDE = ${MKLDIR}/include
-
-##### LOCAL #####
-MKLDIR = /opt/intel/parallel_studio_xe_2019/compilers_and_libraries_2019/mac/mkl
-MKLPATH = ${MKLDIR}/lib/
+MKLDIR = /rds/general/apps/intel/mkl/10.2.1.017
+MKLPATH = ${MKLDIR}/lib/em64t
 MKLINCLUDE = ${MKLDIR}/include
 
-LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl, ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl, -lpthread
+##### LOCAL #####
+# MKLDIR = /opt/intel/parallel_studio_xe_2019/compilers_and_libraries_2019/mac/mkl
+# MKLPATH = ${MKLDIR}/lib/
+# MKLINCLUDE = ${MKLDIR}/include
+
+LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl,--start-group ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl,--end-group -lpthread -lm -ldl 
 #LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl,--start-group ${MKLPATH}/libmkl_intel_lp64.a ${MKLPATH}/libmkl_sequential.a ${MKLPATH}/libmkl_core.a -Wl,--end-group -lpthread
 # version for single-thread testing:
 # For the sequential version, no RTL should be needed, but the
@@ -97,17 +97,17 @@ LAPACK = -L${MKLPATH} -I${MKLINCLUDE} -Wl, ${MKLPATH}/libmkl_intel_lp64.a ${MKLP
 # NCBASE = /noc/users/jeff/packages/netcdf/netcdf-3.6.3/xSSE2/intel11.1
 
 # cx1
-# NCBASE = /rds/general/apps/netcdf/3.6.3
+NCBASE = /rds/general/apps/netcdf/3.6.3
 
 # Local machine
-NCBASE = /usr/local
+# NCBASE = /usr/local
 
 NCIDIR = ${NCBASE}/include
 # Derived symbols passed to Makefile:
 NCDINC = ${NCIDIR}/netcdf.inc
 NCINCL = -I${NCIDIR}
 # Static library link (preferred when using default -mcmodel=small)
-NCLINK = -L${NCBASE}/lib -lnetcdf
+NCLINK = -L${NCBASE}/lib -lnetcdff -lnetcdf
 # Shared library link (required when using -mcmodel=medium)
 #NCLINK = -L${NCBASE}/lib -Bdynamic -lnetcdff -lnetcdf
 # Note that if using shared libraries, need before running the program to do:

@@ -7,7 +7,7 @@
 !!
 !! Timing parameters
 !! -----------------
- 0.0027397260D0  !! trun    = Length of run in years   (1 day)
+! 0.0027397260D0  !! trun    = Length of run in years   (1 day)
 ! 0.0054794521D0  !! trun    = Length of run in years   (2 days)
 ! 0.013698630D0   !! trun    = Length of run in years   (5 days)
 ! 0.027397260D0   !! trun    = Length of run in years  (10 days)
@@ -22,7 +22,7 @@
 ! 0.40D0          !! trun    = Length of run in years (146 days)
 ! 0.493150685D0   !! trun    = Length of run in years (180 days)
 ! 0.60D0          !! trun    = Length of run in years (219 days)
-! 1.00D0          !! trun    = Length of run in years
+ 1.00D0          !! trun    = Length of run in years
 ! 2.00D0          !! trun    = Length of run in years
 ! 4.00D0          !! trun    = Length of run in years
 ! 5.00D0          !! trun    = Length of run in years
