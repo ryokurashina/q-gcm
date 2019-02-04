@@ -1,12 +1,27 @@
+README.md
+
+# /examples/ files
 examples/double_gyre_ocean_only/avges.nc
-/src/q-gcm
-q-gcm
-/examples/double_gyre_ocean_only/outdata/*
-#src/make.config
-#/src/make.macro
-#/src/parameters_data.F
+examples/double_gyre_ocean_only/outdata/*
+
+# /src/ files
+src/make.config
+src/make.macro
+src/parameters_data.F
+src/input_params.dat
+src/outdata/*
+src/q-gcm-submit.pbs
+src/q-gcm
+src/outdata.dat
+src/in_param.f
+
+# /config/ files
+config/input.params
+config/make.config
+config/make.macro
+config/outdata.dat
+
 *.o
 *.mod
 TAGS
 .DS_Store
-/src/outdata/*
