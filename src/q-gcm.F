@@ -693,7 +693,7 @@ c   atmospheric mixed layer thickness
 
 *     Write Matlab-readable copy of input and derived parameters
 *     ----------------------------------------------------------
-      open (10, file=outdir(1:lenod)//'/input_parameters.m',
+      open (10, file=outdir(1:lenod)//'/input_parameters.py',
      &      status='unknown')
       INCLUDE './out_param.f'
       close(10)
