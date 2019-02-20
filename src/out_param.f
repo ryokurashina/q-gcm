@@ -140,7 +140,7 @@ c***********************************************************************
       write(10,121) 'zopt= ',zopt(1),
      &              '     # Optical depth in layer 1'
       do k=2,nla
-        write(10,121) 'zopt= [zopt ', zopt(k),']   # Layers 2,n'
+        write(10,121) 'zopt= [zopt ,', zopt(k),']   # Layers 2,n'
       enddo
       write(10,121) 'gamma= ',gamma,'    # Adiabatic lapse rate'
 
@@ -150,30 +150,30 @@ c***********************************************************************
       write(10,121) 'gpoc= ',gpoc(1),
      &              '     # Reduced gravity for ocean 1/2 interface'
       do k=2,nlo-1
-        write(10,121) 'gpoc= [gpoc ',gpoc(k),']   # Interfaces 2,n-1'
+        write(10,121) 'gpoc= [gpoc ,',gpoc(k),']   # Interfaces 2,n-1'
       enddo
       write(10,121) 'ah2oc= ',ah2oc(1),'    # Del-sqd coefft ocean'
       do k=2,nlo
-        write(10,121) 'ah2oc= [ah2oc ',ah2oc(k),'] # Layers 2,n'
+        write(10,121) 'ah2oc= [ah2oc ,',ah2oc(k),'] # Layers 2,n'
       enddo
       write(10,121) 'ah4oc= ',ah4oc(1),'    # Del-4th coefft ocean'
       do k=2,nlo
-        write(10,121) 'ah4oc= [ah4oc ',ah4oc(k),'] # Layers 2,n'
+        write(10,121) 'ah4oc= [ah4oc ,',ah4oc(k),'] # Layers 2,n'
       enddo
       write(10,121) 'tabsoc= ',tabsoc(1),
      &              '   # Abs. temperature for ocean layer 1'
       do k=2,nlo
-        write(10,121) 'tabsoc= [tabsoc ',tabsoc(k),']    # Layers 2,n'
+        write(10,121) 'tabsoc= [tabsoc ,',tabsoc(k),']    # Layers 2,n'
       enddo
       write(10,121) 'tocc= ',toc(1),
      &              '     # Rel. temperature for ocean layer 1'
       do k=2,nlo
-        write(10,121) 'tocc= [tocc ',toc(k),']   # Layers 2,n'
+        write(10,121) 'tocc= [tocc ,',toc(k),']   # Layers 2,n'
       enddo
       write(10,121) 'hoc= ',hoc(1),
      &              '      # Thickness of ocean layer 1'
       do k=2,nlo
-        write(10,121) 'hoc= [hoc ',hoc(k),']     # Layers 2,n'
+        write(10,121) 'hoc= [hoc ,',hoc(k),']     # Layers 2,n'
       enddo
 
 *     Atmospheric QG layer parameters
@@ -183,36 +183,36 @@ c***********************************************************************
       write(10,121) 'gpat= ',gpat(1),
      &              '     # Reduced gravity for atmos 1/2 interface'
       do k=2,nla-1
-        write(10,121) 'gpat= [gpat ',gpat(k),']   # Interfaces 2,n-1'
+        write(10,121) 'gpat= [gpat, ',gpat(k),']   # Interfaces 2,n-1'
       enddo
       write(10,121) 'ah4at= ',ah4at(1),'    # Del-4th coefft atmos'
       do k=2,nla
-        write(10,121) 'ah4at= [ah4at ',ah4at(k),']   # Layers 2,n'
+        write(10,121) 'ah4at= [ah4at ,',ah4at(k),']   # Layers 2,n'
       enddo
       write(10,121) 'tabsat= ',tabsat(1),
      &              '   # Abs. temperature for atmos layer 1'
       do k=2,nla
-        write(10,121) 'tabsat= [tabsat ',tabsat(k),']    # Layers 2,n'
+        write(10,121) 'tabsat= [tabsat ,',tabsat(k),']    # Layers 2,n'
       enddo
       write(10,121) 'tat= ',tat(1),
      &              '      # Rel. temperature for atmos layer 1'
       do k=2,nla
-        write(10,121) 'tat= [tat ',tat(k),']     # Layers 2,n'
+        write(10,121) 'tat= [tat, ',tat(k),']     # Layers 2,n'
       enddo
       write(10,121) 'hat= ',hat(1),
      &              '      # Thickness of atmos layer 1'
       do k=2,nla
-        write(10,121) 'hat= [hat ',hat(k),']     # Layers 2,n'
+        write(10,121) 'hat= [hat ,',hat(k),']     # Layers 2,n'
       enddo
 
       write(10,'(3a)') 'name= ''',name(1:lename),
      &              '''            # Initial condition file'
 
-      write(10,125) 'outfloc= [', outfloc(1), outfloc(2), outfloc(3),
-     &              outfloc(4), outfloc(5), outfloc(6), outfloc(7),
+      write(10,125) 'outfloc= [', outfloc(1),',' ,outfloc(2),',', outfloc(3),
+     &             ',', outfloc(4),',', outfloc(5),',', outfloc(6), ',',outfloc(7),
      &              ']    # output flag vector for ocean'
-      write(10,125) 'outflat= [', outflat(1), outflat(2), outflat(3),
-     &              outflat(4), outflat(5), outflat(6), outflat(7),
+      write(10,125) 'outflat= [', outflat(1),',', outflat(2),',', outflat(3),
+     &              ',',outflat(4), ',', outflat(5), ',', outflat(6), ',', outflat(7),
      &              ']    # output flag vector for atmos.'
 
 *     Derived parameters
@@ -227,13 +227,13 @@ c***********************************************************************
       write(10,121) 'cphsoc= ',cphsoc(2),
      &              '   # Baroclinic wavespeed for ocean mode 1'
       do k=3,nlo
-        write(10,121) 'cphsoc= [cphsoc ',cphsoc(k),
+        write(10,121) 'cphsoc= [cphsoc ',','cphsoc(k),
      &                ']   # Higher modes'
       enddo
       write(10,121) 'rdefoc= ',rdefoc(2),
      &              '   # Deformation radius for ocean mode 1'
       do k=3,nlo
-        write(10,121) 'rdefoc= [rdefoc ',rdefoc(k),
+        write(10,121) 'rdefoc= [rdefoc ', ',' ,rdefoc(k),
      &                ']   # Higher modes'
       enddo
       write(10,121) 'tsbdy= ',tsbdy,
@@ -245,19 +245,19 @@ c***********************************************************************
       write(10,121) 'cphsat= ',cphsat(2),
      &              '   # Baroclinic wavespeed for atmos mode 1'
       do k=3,nla
-        write(10,121) 'cphsat= [cphsat ',cphsat(k),
+        write(10,121) 'cphsat= [cphsat ', ',' , cphsat(k),
      &                ']   # Higher modes'
       enddo
       write(10,121) 'rdefat= ',rdefat(2),
      &              '   # Deformation radius for atmos mode 1'
       do k=3,nla
-        write(10,121) 'rdefat= [rdefat ',rdefat(k),
+        write(10,121) 'rdefat= [rdefat ', ',' , rdefat(k),
      &                ']   # Higher modes'
       enddo
       write(10,121) 'aface= ',aface(1),
      &              '    # eta    coefficient aface(1)'
       do k=2,nla-1
-        write(10,121) 'aface= [aface ',aface(k),
+        write(10,121) 'aface= [aface ', ',' , aface(k),
      &                ']   # Other interfaces'
       enddo
       write(10,121) 'bface= ',bface,

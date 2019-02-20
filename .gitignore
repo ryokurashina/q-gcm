@@ -25,3 +25,8 @@ config/outdata.dat
 *.mod
 TAGS
 .DS_Store
+*.mp4
+*.html
+*.png
+*.gif
+*.nc
