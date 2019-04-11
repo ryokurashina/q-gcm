@@ -20,51 +20,31 @@ class ContourData:
         self.vec = np.linspace(-self.vabsmax,self.vabsmax, 100, endpoint=True)
         self.name = name
 
-    def init_frame(self, unit):
+    def init_frame(self):
         """ Produces the initial contour frame of data. Useful for when producing
          .gif files with the Animation package on matplotlib.
         """
         fig, ax = self.fig, self.ax
-        ax.set_aspect('equal')
         ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
-        # plt.axis('equal')
-        plt.colorbar(ax, format='%.2e').ax.set_ylabel(unit)
-        # if option:
-        #     plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^oX/2$', '$^oX$'])
-        #     plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^oY/2$', '$^oY$'])
-        # else:
-        #     plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^aX/2$', '$^aX$'])
-        #     plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^aY/2$', '$^aY$'])
-
+        plt.colorbar(ax)
         return [fig, ax]
 
-    def frame_i(self, i):
+    def frame_i(self,i):
         """ Produces the i-th time-step frame of the data. Again, this is useful
         for producing .gif files.
         """
         self.ax.clear()
         return self.ax.contourf(self.data[i, :, :], self.vec, cmap=cm.jet)
 
-    def take_snapshots(self, period, save_period, path, option):
+    def take_snapshots(self, period, save_period, path):
         """ Produces periodic snapshots of the flow.
         param: step: The period at which we take snapshots (in the data).
         param: save_period: The period at which data is saved in the q-gcm code.
         param: path: String containing datapath to save to
-        param: option: Boolean, True for ocean, False for atmos.
-        param: option: String containing units of variable
         """
         time = self.data.shape[0]
         for i in range(0, time, period):
             self.frame_i(i)
-            # Ocean
-            if option:
-                plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^oX/2$', '$^oX$'])
-                plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^oY/2$', '$^oY$'])
-            # Atmosphere
-            else:
-                plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^aX/2$', '$^aX$'])
-                plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^aY/2$', '$^aY$'])
-
             plt.savefig(path+self.name+'_day_'+str(i*save_period)+'.png')
 
 
@@ -197,7 +177,7 @@ class Pressure(ContourData):
     def speed(self, flag, alpha, dx, f):
         u = self.zonal(flag, alpha, dx, f)
         v = self.meridional(flag, alpha, dx, f)
-        return ContourData(np.square(np.array(u.data))+np.square(np.array(v.data)))
+        return ContourData(np.sqrt(np.square(np.array(u.data))+np.square(np.array(v.data))))
 
 
 

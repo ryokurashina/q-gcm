@@ -23,7 +23,7 @@ for i in range(2):
             q = utils.ContourData(q_oc[:,j,:,:])
         else:
             q = utils.ContourData(q_at[:,j,:,:])
-        [fig, ax] = q.init_frame()
+        [fig, ax] = q.init_frame('$s^{-1}$')
         anim = ani.FuncAnimation(fig, q.frame_i, frames=time)
 
         if i == 0:
