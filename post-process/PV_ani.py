@@ -23,10 +23,11 @@ for i in range(2):
             q = utils.ContourData(q_oc[:,j,:,:])
         else:
             q = utils.ContourData(q_at[:,j,:,:])
-        [fig, ax] = q.init_frame('$s^{-1}$')
-        anim = ani.FuncAnimation(fig, q.frame_i, frames=time)
-
         if i == 0:
+            [fig, ax] = q.init_frame('Potential Vorticity ($s^{-1}$)', True)
+            anim = ani.FuncAnimation(fig, q.frame_i, frames=time)
             anim.save('/Users/rk2014/Documents/q-gcm/post-process/pv'+str(j+1)+'_oc.mp4')
         else:
+            [fig, ax] = q.init_frame('Potential Vorticity ($s^{-1}$)', False)
+            anim = ani.FuncAnimation(fig, q.frame_i, frames=time)
             anim.save('/Users/rk2014/Documents/q-gcm/post-process/pv'+str(j+1)+'_at.mp4')

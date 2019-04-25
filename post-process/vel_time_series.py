@@ -5,11 +5,11 @@ import matplotlib.animation as ani
 from matplotlib import cm
 import utils as utils
 
-datapath = '/Users/rk2014/Documents/q-gcm/post-process/'
+datapath = '/Users/rk2014/Documents/q-gcm/post-process/210/a/'
 
 # Number of times code has been run
-N = 2
-monit = nc.Dataset(datapath + 'monit1.nc')
+N = 1
+monit = nc.Dataset(datapath + 'monit.nc')
 # print(monit.variables)
 length = monit['ugminoc'].shape[0]
 
@@ -28,7 +28,9 @@ units = monit['ugminat'].units
 
 
 for i in range(N):
-    monit = nc.Dataset(datapath + 'monit' + str(i+1) +'.nc')
+    # monit = nc.Dataset(datapath + 'monit' + str(i+1) +'.nc')
+    monit = nc.Dataset(datapath + 'monit.nc')
+
     ug_min_at[i*length:(i+1)*length, :] = np.array(monit['ugminat'])
     ug_max_at[i*length:(i+1)*length, :] = np.array(monit['ugmaxat'])
     ug_min_oc[i*length:(i+1)*length, :] = np.array(monit['ugminoc'])
@@ -72,13 +74,13 @@ for j in range(4):
             vg_max.time_series_plot()
     if j == 0:
         plt.legend(loc='upper right')
-        plt.savefig('./u_time_series_at.png')
+        plt.savefig('/Users/rk2014/Documents/q-gcm/post-process/210/a/u_time_series_at.png')
     elif j == 1:
         plt.legend(loc='upper left')
-        plt.savefig('./v_time_series_at.png')
+        plt.savefig('/Users/rk2014/Documents/q-gcm/post-process/210/a/v_time_series_at.png')
     elif j == 2:
         plt.legend(loc='upper right')
-        plt.savefig('./u_time_series_oc.png')
+        plt.savefig('/Users/rk2014/Documents/q-gcm/post-process/210/a/u_time_series_oc.png')
     else:
         plt.legend(loc='upper left')
-        plt.savefig('./v_time_series_oc.png')
+        plt.savefig('/Users/rk2014/Documents/q-gcm/post-process/210/a/v_time_series_oc.png')

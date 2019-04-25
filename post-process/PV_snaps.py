@@ -22,10 +22,10 @@ for i in range(2):
         if i == 0:
             name = 'PV_oc'+'_'+str(j+1)
             q = utils.ContourData(q_oc[:, j, :, :], name=name)
-            [fig, ax] = q.init_frame('$s^{-1}$')
+            [fig, ax] = q.init_frame('Potential Vorticity ($s^{-1}$)', True)
             q.take_snapshots(10, 1, savepath, True)
         else:
             name = 'PV_at'+'_'+str(j+1)
             q = utils.ContourData(q_at[:, j, :, :], name=name)
-            [fig, ax] = q.init_frame('$s^{-1}$')
+            [fig, ax] = q.init_frame('Potential Vorticity ($s^{-1}$)', False)
             q.take_snapshots(10, 1, savepath, False)

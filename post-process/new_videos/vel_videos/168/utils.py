@@ -3,6 +3,7 @@ import netCDF4 as nc
 import matplotlib.pyplot as plt
 import matplotlib.animation as ani
 from matplotlib import cm
+from matplotlib import ticker
 from input_parameters import bccoat, bccooc, dxo, dxa
 
 
@@ -20,32 +21,51 @@ class ContourData:
         self.vec = np.linspace(-self.vabsmax,self.vabsmax, 100, endpoint=True)
         self.name = name
 
-    def init_frame(self):
+    def init_frame(self, unit, option):
         """ Produces the initial contour frame of data. Useful for when producing
          .gif files with the Animation package on matplotlib.
+        param: unit: String containing unit of variable plotted.
+        param: option: Boolean, True for ocean and False for atmos.
         """
         fig, ax = self.fig, self.ax
-        ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
-        plt.colorbar(ax)
+        if option:
+            ax.set_aspect('equal')
+            ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
+            plt.colorbar(ax, format='%.2e', orientation = 'vertical', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_ylabel(unit)
+        else:
+            ax.set_aspect('equal')
+            ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
+            plt.colorbar(ax, format='%.2e', orientation = 'horizontal', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_xlabel(unit)
         return [fig, ax]
 
-    def frame_i(self,i):
+    def frame_i(self, i):
         """ Produces the i-th time-step frame of the data. Again, this is useful
         for producing .gif files.
         """
         self.ax.clear()
         return self.ax.contourf(self.data[i, :, :], self.vec, cmap=cm.jet)
 
-    def take_snapshots(self, period, save_period, path):
+    def take_snapshots(self, period, save_period, path, option):
         """ Produces periodic snapshots of the flow.
         param: step: The period at which we take snapshots (in the data).
         param: save_period: The period at which data is saved in the q-gcm code.
         param: path: String containing datapath to save to
+        param: option: Boolean, True for ocean, False for atmos.
+        param: option: String containing units of variable
         """
         time = self.data.shape[0]
         for i in range(0, time, period):
             self.frame_i(i)
-            plt.savefig(path+self.name+'_day_'+str(i*save_period)+'.png')
+            # Ocean
+            if option:
+                plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^oX/2$', '$^oX$'])
+                plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^oY/2$', '$^oY$'])
+            # Atmosphere
+            else:
+                plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^aX/2$', '$^aX$'])
+                plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^aY/2$', '$^aY$'])
+
+            plt.savefig(path+self.name+'_day_'+str(i*save_period)+'.png', bbox_inches = 'tight', pad_inches = 0.25)
 
 
 
@@ -87,8 +107,8 @@ class Pressure(ContourData):
                 P[i, M+1, :] = 2*alpha/(2*alpha-dx)*(2*P[i, M, :]-P[i, M-1, :])-\
                     dx/(2*alpha-dx)*P[i, M-1, :]
                 # v = 1/f*dp/dx and u = -1/f*dp/dx
-                u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
-                # v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
+                u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(4*dx)
+                #u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
             return ContourData(u)
 
         elif flag == 1:
@@ -111,8 +131,8 @@ class Pressure(ContourData):
                 P[i, M+1, :] = 2*alpha/(2*alpha-dx)*(2*P[i, M, :]-P[i, M-1, :])-\
                     dx/(2*alpha-dx)*P[i, M-1, :]
                 # v = 1/f*dp/dx and u = -1/f*dp/dy
-                u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
-                # v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
+                u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(4*dx)
+                #u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
             return ContourData(u)
 
 
@@ -146,8 +166,8 @@ class Pressure(ContourData):
                 P[i, M+1, :] = 2*alpha/(2*alpha-dx)*(2*P[i, M, :]-P[i, M-1, :])-\
                     dx/(2*alpha-dx)*P[i, M-1, :]
                 # v = 1/f*dp/dx and u = -1/f*dp/dx
-                # u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
-                v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
+                v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(4*dx)
+                #v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
             return ContourData(v)
 
         elif flag == 1:
@@ -170,8 +190,8 @@ class Pressure(ContourData):
                 P[i, M+1, :] = 2*alpha/(2*alpha-dx)*(2*P[i, M, :]-P[i, M-1, :])-\
                     dx/(2*alpha-dx)*P[i, M-1, :]
                 # v = 1/f*dp/dx and u = -1/f*dp/dy
-                # u[i, :, 1:N-1] = -1/f*(P[i, 2:M+2, 1:N-1]-P[i, 0:M, 1:N-1])/(2*dx)
-                v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
+                #v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(2*dx)
+                v[i, 1:M-1, :] = 1/f*(P[i, 1:M-1, 2:N+2]-P[i, 1:M-1, 0:N])/(4*dx)
             return ContourData(v)
 
     def speed(self, flag, alpha, dx, f):

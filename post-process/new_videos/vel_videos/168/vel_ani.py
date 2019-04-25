@@ -6,7 +6,7 @@ from matplotlib import cm
 from input_parameters import bccoat, bccooc, dxo, dxa, fnot
 import utils as utils
 
-datapath = '/rds/general/user/rk2014/home/WORK/q-gcm/outdata_a/'
+datapath = '/rds/general/user/rk2014/home/WORK/q-gcm/outdata_b/'
 
 # Files that describe oceanic and atmospheric state
 atpa = nc.Dataset(datapath + 'atpa.nc')
@@ -16,7 +16,7 @@ p_ = ocpo.variables['p'][:, :, :, :]
 
 time = p_.shape[0] # total time
 
-writer = writer = ani.ImageMagickWriter()
+writer = ani.ImageMagickWriter()
 
 for i in range(2):
     if i == 0:
@@ -43,8 +43,8 @@ for i in range(2):
         if i == 0:
             # anim1.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/u'+str(j+1)+'_oc.gif', writer=writer)
             # anim2.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/v'+str(j+1)+'_oc.gif',writer=writer)
-            anim3.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/s'+str(j+1)+'_oc_a.gif',writer=writer)
+            anim3.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/s'+str(j+1)+'_oc_b.gif',writer=writer)
         else:
             # anim1.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/u'+str(j+1)+'_at.gif', writer = writer)
             # anim2.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/v'+str(j+1)+'_at.gif', writer=writer)
-            anim3.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/s'+str(j+1)+'_at_a.gif',writer=writer)
+            anim3.save('/rds/general/user/rk2014/home/WORK/q-gcm/post_process/vel_videos/s'+str(j+1)+'_at_b.gif',writer=writer)
