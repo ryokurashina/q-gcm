@@ -5,12 +5,11 @@ import matplotlib.animation as ani
 from matplotlib import cm
 import utils as utils
 
-datapath = '/Users/rk2014/Documents/q-gcm/post-process/'
+datapath = ['/Users/rk2014/Documents/q-gcm/post-process/', '/Users/rk2014/Documents/q-gcm/post-process/']
 
 # Number of times code has been run
 N = 2
-monit = nc.Dataset(datapath + 'monit1.nc')
-print(monit['kealoc'].shape)
+monit = nc.Dataset(datapath[0] + 'monit.nc')
 length = monit['kealat'].shape[0]
 ke_at = np.zeros((length*N, monit['kealat'].shape[1]))
 ke_oc = np.zeros((length*N, monit['kealat'].shape[1]))
@@ -20,7 +19,7 @@ units_at = monit['kealat'].units
 units_oc = monit['kealoc'].units
 
 for i in range(N):
-    monit = nc.Dataset(datapath + 'monit' + str(i+1) +'.nc')
+    monit = nc.Dataset(datapath[i] + 'monit.nc')
     ke_at[i*length:(i+1)*length, :] = np.array(monit['kealat'])
     ke_oc[i*length:(i+1)*length, :] = np.array(monit['kealoc'])
 

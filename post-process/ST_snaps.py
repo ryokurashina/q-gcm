@@ -18,7 +18,6 @@ sst = ocsst.variables['sst']
 time = ast.shape[0] # total time
 savepath = '/Users/rk2014/Documents/q-gcm/post-process/snapshots/'
 for i in range(2):
-
     if i == 0:
         name = 'sst'
         sst = utils.ContourData(sst[:, :, :], name=name)

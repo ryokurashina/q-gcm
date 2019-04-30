@@ -47,7 +47,7 @@ class ContourData:
 
     def take_snapshots(self, period, save_period, path, option):
         """ Produces periodic snapshots of the flow.
-        param: step: The period at which we take snapshots (in the data).
+        param: period: The period at which we take snapshots (in the data).
         param: save_period: The period at which data is saved in the q-gcm code.
         param: path: String containing datapath to save to
         param: option: Boolean, True for ocean, False for atmos.
@@ -216,3 +216,4 @@ class TimeSeriesData:
         self.name = name
     def time_series_plot(self):
         plt.plot(self.time, self.data, label=self.name)
+        plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
