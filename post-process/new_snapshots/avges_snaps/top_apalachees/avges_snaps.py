@@ -6,18 +6,18 @@ from matplotlib import cm
 from input_parameters import rhoat, rhooc, fnot, bccooc, bccoat, dxa, dxo
 import utils as utils
 
-datapath = '/rds/general/user/rk2014/home/WORK/q-gcm/outdata_toptest/test/NA_atmos_only/'
+datapath = '/rds/general/user/rk2014/home/WORK/q-gcm/outdata_toptest/test/apalachee_coupled/'
 
 # Files that describe average oceanic and atmospheric state
 avges = nc.Dataset(datapath + 'avges.nc')
 
 savepath = './'
 
-#variable = 'zonal'
+variable = 'zonal'
 #variable = 'meridional'
-variable = 'speed'
+#variable = 'speed'
 
-for i in range(1,2):
+for i in range(2):
     for j in range(3):
         if i == 0:
             dx = dxo
@@ -54,10 +54,10 @@ for i in range(1,2):
             elif variable == 'meridional':
                 name = 'v_at_avge'+'_'+str(j+1)+'_a'
                 v = utils.ContourData(p_at.meridional(1, alpha, dx, fnot).data, name=name)
-                [fig, ax] = v.init_frame('Meridional Velocity ($ms^{-1}$)', False)
+                [fig, ax] = v.init_frame('Zonal Velocity ($ms^{-1}$)', False)
                 v.take_snapshots(1, 1, savepath, False)
             elif variable == 'speed':
                 name = 's_at_avge'+'_'+str(j+1)+'_a'
                 s = utils.ContourData(p_at.speed(1, alpha, dx, fnot).data, name=name)
-                [fig, ax] = s.init_frame('Speed ($ms^{-1}$)', False)
+                [fig, ax] = s.init_frame('Zonal Velocity ($ms^{-1}$)', False)
                 s.take_snapshots(1, 1, savepath, False)

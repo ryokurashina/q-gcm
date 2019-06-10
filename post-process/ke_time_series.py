@@ -5,40 +5,42 @@ import matplotlib.animation as ani
 from matplotlib import cm
 import utils as utils
 
-datapath = ['/Users/rk2014/Documents/q-gcm/post-process/', '/Users/rk2014/Documents/q-gcm/post-process/']
+# Option is at or oc
+option = 'at'
+
+datapath = ['/rds/general/user/rk2014/home/WORK/q-gcm/outdata_210_a/', '/rds/general/user/rk2014/home/WORK/q-gcm/outdata_210_b/']
 
 # Number of times code has been run
-N = 2
+N = len(datapath)
 monit = nc.Dataset(datapath[0] + 'monit.nc')
-length = monit['kealat'].shape[0]
-ke_at = np.zeros((length*N, monit['kealat'].shape[1]))
-ke_oc = np.zeros((length*N, monit['kealat'].shape[1]))
+
+if option == 'oc':
+    length = monit['kealoc'].shape[0]
+    ke_array = np.zeros((length*N, monit['kealoc'].shape[1]))
+else:
+    length = monit['kealat'].shape[0]
+    ke_array = np.zeros((length*N, monit['kealat'].shape[1]))
 
 time = [i for i in range(N*length)]
-units_at = monit['kealat'].units
-units_oc = monit['kealoc'].units
+units = '$Jm^{-2}$'
 
 for i in range(N):
     monit = nc.Dataset(datapath[i] + 'monit.nc')
-    ke_at[i*length:(i+1)*length, :] = np.array(monit['kealat'])
-    ke_oc[i*length:(i+1)*length, :] = np.array(monit['kealoc'])
-
-for j in range(2):
-    plt.figure()
-    for k in range(3):
-        if j == 0:
-            ke = utils.TimeSeriesData(time, ke_at[:, k],name='Layer '+str(k+1))
-            plt.xlabel('Time (Days)')
-            plt.ylabel('Average Kinetic Energy (' + units_at + ')')
-            ke.time_series_plot()
-        else:
-            ke = utils.TimeSeriesData(time, ke_oc[:, k],name='Layer '+str(k+1))
-            plt.xlabel('Time (Days)')
-            plt.ylabel('Average Kinetic Energy (' + units_oc + ')')
-            ke.time_series_plot()
-    if j == 0:
-        plt.legend(loc='upper right')
-        plt.savefig('./KE_time_series_at.png')
+    if option == 'oc':
+        ke_array[i*length:(i+1)*length, :] = np.array(monit['kealoc'])
     else:
+        ke_array[i*length:(i+1)*length, :] = np.array(monit['kealat'])
+
+
+plt.figure()
+for k in range(3):
+    ke = utils.TimeSeriesData(time, ke_array[:, k],name='Layer '+str(k+1))
+    plt.xlabel('Time (Days)')
+    plt.ylabel('Average Kinetic Energy (' + units + ')')
+    ke.time_series_plot()
+    if option == 'oc':
         plt.legend(loc='upper left')
         plt.savefig('./KE_time_series_oc.png')
+    else:
+        plt.legend(loc='upper right')
+        plt.savefig('./KE_time_series_at.png')

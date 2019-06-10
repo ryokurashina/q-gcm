@@ -22,7 +22,7 @@ def add_ocean():
     x = np.linspace(x_start, x_start+dim, dim+1)
     y = np.linspace(y_start, y_start+dim, dim+1)
     # Bottom wall
-    plt.plot(x, y_start*np.ones_like(x),'k--')
+    plt.plot(x, y_start*np.ones_like(y),'k--')
     # Left wall
     plt.plot(x_start*np.ones_like(x), y,'k--')
     # Top wall
@@ -83,13 +83,13 @@ class ContourData:
         time = self.data.shape[0]
         for i in range(0, time, period):
             self.frame_i(i)
+            add_ocean()
             # Ocean
             if option:
                 plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^oX/2$', '$^oX$'])
                 plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^oY/2$', '$^oY$'])
             # Atmosphere
             else:
-                add_ocean()
                 plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^aX/2$', '$^aX$'])
                 plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^aY/2$', '$^aY$'])
 

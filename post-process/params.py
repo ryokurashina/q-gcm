@@ -52,10 +52,13 @@ def strat(Rd_bc1, Rd_bc2, H1, H2, H3, f0, option=True):
 
 if __name__ == '__main__':
     # print("Actual gpoc:", gpoc)
-    # f0 = fnot
+    f0 = fnot
+    print(f0)
+
     # print(hoc)
     # # H_oc = hoc
     # H_oc = [250, 750, 2900]
     # N_oc = len(H_oc)
-    # print(strat(40000, 20600,H_oc[0],H_oc[1],H_oc[2], f0, True))
-    print(bc(120*10**3))
+    print(strat(40000, 20600, 250,750,3000, f0, True))
+    # print(strat(40000, 20600,250,750,3000, 0.83*10**(-4), True))
+    # print(bc(120*10**3))

@@ -4,31 +4,11 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as ani
 from matplotlib import cm
 from matplotlib import ticker
-from matplotlib import rc
 from input_parameters import bccoat, bccooc, dxo, dxa
+from matplotlib import rc
 
 plt.rcParams.update({'font.size': 14})
 rc('text', usetex=True)
-
-def add_ocean():
-    # 80km atmosphere
-    x_start = 162
-    y_start = 18
-    dim = 60
-    # 20 km atmosphere
-    # x_start = 648
-    # y_start 72
-    # dim = 240
-    x = np.linspace(x_start, x_start+dim, dim+1)
-    y = np.linspace(y_start, y_start+dim, dim+1)
-    # Bottom wall
-    plt.plot(x, y_start*np.ones_like(x),'k--')
-    # Left wall
-    plt.plot(x_start*np.ones_like(x), y,'k--')
-    # Top wall
-    plt.plot(x, (y_start+dim)*np.ones_like(y),'k--')
-    # Right wall
-    plt.plot((x_start+dim)*np.ones_like(x), y,'k--')
 
 class ContourData:
     """ Class used in order to produce contour plots for data.
@@ -54,15 +34,14 @@ class ContourData:
         if option:
             ax.set_aspect('equal')
             ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
-            #plt.colorbar(ax, format='%.2e', orientation = 'vertical', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_ylabel(unit)
-            plt.colorbar(ax, format='%.2e', orientation = 'vertical', ticks = [0, self.vabsmax]).ax.set_ylabel(unit)
+            plt.colorbar(ax, format='%.2e', orientation = 'vertical', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_ylabel(unit)
+            #plt.colorbar(ax, format='%.2e', orientation = 'vertical', ticks = [0, self.vabsmax]).ax.set_ylabel(unit)
 
         else:
             ax.set_aspect('equal')
             ax = plt.contourf(self.data[0, :, :], self.vec, cmap=cm.jet)
-            #plt.colorbar(ax, format='%.2e', orientation = 'horizontal', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_xlabel(unit)
-            plt.colorbar(ax, format='%.2e', orientation = 'horizontal', ticks = [0, self.vabsmax]).ax.set_xlabel(unit)
-            add_ocean()
+            plt.colorbar(ax, format='%.2e', orientation = 'horizontal', ticks = [-self.vabsmax, 0, self.vabsmax]).ax.set_xlabel(unit)
+            #plt.colorbar(ax, format='%.2e', orientation = 'horizontal', ticks = [0, self.vabsmax]).ax.set_xlabel(unit)
         return [fig, ax]
 
     def frame_i(self, i):
@@ -89,7 +68,6 @@ class ContourData:
                 plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^oY/2$', '$^oY$'])
             # Atmosphere
             else:
-                add_ocean()
                 plt.xticks([0, self.data.shape[2]/2, self.data.shape[2]], ['0', '$^aX/2$', '$^aX$'])
                 plt.yticks([0, self.data.shape[1]/2, self.data.shape[1]], ['0', '$^aY/2$', '$^aY$'])
 
